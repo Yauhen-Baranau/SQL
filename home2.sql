@@ -45,7 +45,8 @@ INSERT students (class_id, first_name, last_name, phone, age) VALUES (3, "Юля
 
 UPDATE students SET class_id = 4 WHERE first_name = "Юля";
 
-
+DROP TABLE classes, students;
+DROP DATABASE school_db;
 
 
 
