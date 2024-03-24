@@ -23,7 +23,7 @@ INSERT classes (class_num, class_name) VALUES (9, "A");
 INSERT classes (class_num, class_name) VALUES (10, "A");
 INSERT classes (class_num, class_name) VALUES (11, "Б");
 
-UPDATE classes SET class_name = 'A'WHERE class_num = 11;
+UPDATE classes SET class_name = 'A' WHERE class_num = 11;
 
 CREATE TABLE students (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -33,7 +33,7 @@ CREATE TABLE students (
     phone VARCHAR(13) UNIQUE CHECK(phone !=''),
     FOREIGN KEY (class_id) REFERENCES classes (id)
 );
-    ALTER TABLE students ADD COLUMN age TINYINT(2) NOT NULL CHECK(age >= 6 AND age <=17);
+    ALTER TABLE students ADD COLUMN age TINYINT NOT NULL CHECK(age >= 6 AND age <=17);
 
 INSERT students ( first_name, last_name, phone, age) VALUES ( "Евгений", "Баранов", "+375293333333", 6);
 INSERT students (class_id, first_name, last_name, phone, age) VALUES (1, "Кристина", "Абражевич", "+375296112322", 6);
