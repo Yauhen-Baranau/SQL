@@ -1,6 +1,7 @@
 DROP DATABASE IF EXISTS school_db;
 CREATE DATABASE IF NOT EXISTS school_db;
 
+
 USE school_db;
 
 CREATE TABLE classes (
@@ -57,9 +58,6 @@ SELECT * FROM students WHERE class_id NOT IN (1);
 SELECT * FROM students LIMIT 3;
 SELECT COUNT(*) from students;
 SELECT class_id, COUNT(id) FROM students GROUP BY class_id HAVING COUNT(id) >= 2; -- группировка количества учеников в классах и фильтр сгруп. данных где кол-во учеников >= 2
-
-DROP TABLE classes, students;
-DROP DATABASE school_db;
 
 
 
