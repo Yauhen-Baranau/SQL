@@ -21,11 +21,11 @@ INSERT classes (class_num, class_name) VALUES (9, "A");
 INSERT classes (class_num, class_name) VALUES (10, "A");
 INSERT classes (class_num, class_name) VALUES (11, "Б");
 
-UPDATE classes SET class_name = 'A' WHERE class_num = 11;
+UPDATE classes SET class_name = 'A'WHERE class_num = 11;
 
 CREATE TABLE students (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    class_id INT DEFAULT 1,
+    class_id INT,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     phone VARCHAR(13) UNIQUE CHECK(phone !=''),
@@ -78,7 +78,7 @@ SELECT students.first_name AS student_name,
     JOIN teachers ON teachers.lead_class_id = classes.id
     WHERE students.first_name LIKE("Е%");
 
- -- Выводим все возможные классы вместе с их классными руководителями.  LEFT
+ -- Выводим все возможные классы с их классными руководителями.  LEFT
 SELECT * FROM classes
     LEFT JOIN teachers ON teachers.lead_class_id = classes.id;
 
@@ -100,24 +100,60 @@ SELECT * FROM classes
     LEFT JOIN teachers ON classes.id = teachers.lead_class_id
     WHERE teachers.lead_class_id IS NULL;
 
+SELECT * FROM teachers
+    WHERE lead_class_id IS NULL;
 
-
+    SELECT * FROM teachers
+    JOIN classes ON classes.id = teachers.lead_class_id;
 
 
 -- -------------------------------------------------------------------------------------------------------------------
--- ДОРАБОТКИ ПО 5й домшней
-    -- без использования join
-    SELECT * FROM teachers, classes WHERE classes.id = teachers.lead_class_id;
+-- 6-ая домашняя работа
 
-    -- пример запроса по получению значений, которые не соединены первичным и внешним ключом
-    SELECT * FROM teachers, classes WHERE classes.id != teachers.lead_class_id;
+    -- Выбераем  имя и фамилию с использованием метода строк
+    SELECT CONCAT(first_name, " ", last_name) as fl_name FROM students;
+	SELECT CONCAT_WS(" ", first_name, last_name) as fl_name FROM students;
+    -- соеденяем имя и фамилию и выводем а upper case
+    SELECT UPPER(CONCAT(first_name, " ", last_name)) as fl_name FROM students;
 
-    --  соединение FULL JOIN
-    SELECT * FROM students
-    LEFT JOIN classes ON students.class_id = classes.id
-    UNION
-    SELECT * FROM students
-    RIGHT JOIN classes ON students.class_id = classes.id;
+    -- Пример не о чем, просто вернул для кажого номера класса квадратный корень
+    SELECT SQRT(class_num) from classes;
+
+    -- Получаем фамилию, дату рожения ученика и выводим текущую локальную дату, когда получили эти данные.
+    SELECT last_name, birth_date, NOW() as receipt_time from students;
+
+    -- Выводим имя и фамилию ученика, подтягиваем таблицу классов через LEFT JOIN, получаем
+    -- в каком классе ученик, далее делаем проверку через IF и выводим Первоклашка он и Средняя школа или не определено с IFNULL
+    SELECT first_name, last_name,
+    IFNULL(classes.class_num, "не определено") as class_num,
+    IF (classes.class_num = 1, "Первоклашка", "Средняя школа") as rang
+    FROM students
+    LEFT JOIN classes
+    ON students.class_id = classes.id;
+
+
+    -- тоже самое что и выше только с COALESCE
+	SELECT first_name, last_name,
+    COALESCE(classes.class_num, "не определено") as class_num
+    FROM students
+    LEFT JOIN classes
+    ON students.class_id = classes.id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
